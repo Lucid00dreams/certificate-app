@@ -10,8 +10,11 @@ create table if not exists public.participants (
   file_path text,          -- path inside the storage bucket, e.g. "2026/abc123.pdf"
   status text not null default 'pending' check (status in ('pending', 'downloaded')),
   upload_date timestamptz not null default now(),
-  downloaded_at timestamptz
+  downloaded_at timestamptz,
+  wants_more_sessions boolean default false,
+  requested_topics text
 );
+
 
 create index if not exists participants_unique_id_idx on public.participants (unique_id);
 create index if not exists participants_email_idx on public.participants (lower(email));

@@ -9,7 +9,7 @@ export async function GET() {
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("participants")
-    .select("id, name, email, unique_id, status, upload_date, file_path")
+    .select("id, name, email, unique_id, status, upload_date, file_path, wants_more_sessions, requested_topics")
     .order("upload_date", { ascending: false });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
@@ -54,8 +54,9 @@ export async function POST(request: Request) {
   const { data, error } = await supabase
     .from("participants")
     .insert({ name, email, unique_id: uniqueId, file_path: filePath, status: "pending" })
-    .select("id, name, email, unique_id, status, upload_date, file_path")
+    .select("id, name, email, unique_id, status, upload_date, file_path, wants_more_sessions, requested_topics")
     .single();
+
 
   if (error) {
     return NextResponse.json(

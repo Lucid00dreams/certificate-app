@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Clock, Trash2, FileX2 } from "lucide-react";
+import { CheckCircle2, Clock, Trash2, FileX2, MessageSquare } from "lucide-react";
 import { useToast } from "@/lib/toast-context";
 import { Spinner } from "@/components/ui/Spinner";
 
@@ -13,6 +13,8 @@ export interface Participant {
   status: "pending" | "downloaded";
   upload_date: string;
   file_path: string | null;
+  wants_more_sessions?: boolean | null;
+  requested_topics?: string | null;
 }
 
 function StatusPill({ status }: { status: Participant["status"] }) {
@@ -72,7 +74,7 @@ export function ParticipantsTable({
 
   return (
     <div className="rounded-xl border border-line-soft bg-white overflow-x-auto shadow-sm">
-      <table className="w-full text-xs sm:text-sm whitespace-nowrap min-w-[600px]">
+      <table className="w-full text-xs sm:text-sm whitespace-nowrap min-w-[720px]">
         <thead>
           <tr className="border-b border-line-soft text-left text-[11px] sm:text-xs uppercase tracking-wider text-ink-faint bg-bone/40">
             <th className="px-4 sm:px-5 py-3 font-medium">Name</th>
@@ -80,6 +82,7 @@ export function ParticipantsTable({
             <th className="px-4 sm:px-5 py-3 font-medium">Unique ID</th>
             <th className="px-4 sm:px-5 py-3 font-medium">Upload Date</th>
             <th className="px-4 sm:px-5 py-3 font-medium">Status</th>
+            <th className="px-4 sm:px-5 py-3 font-medium">Future Interest / Topics</th>
             <th className="px-4 sm:px-5 py-3 font-medium text-right">Actions</th>
           </tr>
         </thead>
@@ -102,6 +105,25 @@ export function ParticipantsTable({
               <td className="px-4 sm:px-5 py-3">
                 <StatusPill status={p.status} />
               </td>
+              <td className="px-4 sm:px-5 py-3">
+                {p.wants_more_sessions ? (
+                  <div className="flex flex-col gap-1 max-w-[240px]">
+                    <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full w-fit">
+                      <MessageSquare className="h-3 w-3 text-emerald-600 shrink-0" />
+                      Wants More Sessions
+                    </span>
+                    {p.requested_topics ? (
+                      <span className="text-xs text-ink-soft italic truncate" title={p.requested_topics}>
+                        &ldquo;{p.requested_topics}&rdquo;
+                      </span>
+                    ) : (
+                      <span className="text-[11px] text-ink-faint italic">No topics specified</span>
+                    )}
+                  </div>
+                ) : (
+                  <span className="text-xs text-ink-faint">—</span>
+                )}
+              </td>
               <td className="px-4 sm:px-5 py-3 text-right">
                 <button
                   onClick={() => handleDelete(p)}
@@ -118,5 +140,6 @@ export function ParticipantsTable({
       </table>
     </div>
   );
+
 
 }

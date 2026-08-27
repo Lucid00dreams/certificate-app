@@ -24,6 +24,10 @@ export function CertificateCard({
 }) {
   const { showToast } = useToast();
   const [downloading, setDownloading] = useState(false);
+  const [wantsMore, setWantsMore] = useState(false);
+  const [topics, setTopics] = useState("");
+  const [submittingFeedback, setSubmittingFeedback] = useState(false);
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   async function handleDownload() {
     setDownloading(true);
@@ -57,6 +61,35 @@ export function CertificateCard({
       showToast("Couldn't download the file. Check your connection.", "error");
     } finally {
       setDownloading(false);
+    }
+  }
+
+  async function handleFeedbackSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSubmittingFeedback(true);
+    try {
+      const res = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uniqueId: participant.uniqueId,
+          email: participant.email,
+          wantsMoreSessions: wantsMore,
+          requestedTopics: topics.trim(),
+        }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        showToast(data.error || "Couldn't save feedback.", "error");
+      } else {
+        setFeedbackSubmitted(true);
+        showToast("Your training feedback has been saved!", "success");
+      }
+    } catch {
+      showToast("Couldn't connect to save feedback.", "error");
+    } finally {
+      setSubmittingFeedback(false);
     }
   }
 
@@ -125,8 +158,71 @@ export function CertificateCard({
             </>
           )}
         </button>
+
+        {/* Training Feedback Section */}
+        <div className="mt-7 pt-6 border-t border-slate-100">
+          <form onSubmit={handleFeedbackSubmit} className="bg-slate-50/80 rounded-2xl p-4 sm:p-5 border border-slate-200/80 space-y-3.5">
+            <div className="flex items-start gap-3">
+              <input
+                id="wants-more"
+                type="checkbox"
+                checked={wantsMore}
+                onChange={(e) => {
+                  setWantsMore(e.target.checked);
+                  if (!e.target.checked) setFeedbackSubmitted(false);
+                }}
+                className="mt-1 h-4 w-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500/20 accent-amber-600 cursor-pointer shrink-0"
+              />
+              <label htmlFor="wants-more" className="text-xs sm:text-sm font-semibold text-slate-800 cursor-pointer leading-snug">
+                I would like to attend more training sessions like this in the future.
+              </label>
+            </div>
+
+            {wantsMore && (
+              <div className="space-y-3 pt-1 animate-fade-up">
+                <label htmlFor="topics-input" className="block text-xs font-medium text-slate-600">
+                  What topics would you like future training on?
+                </label>
+                <textarea
+                  id="topics-input"
+                  rows={3}
+                  value={topics}
+                  onChange={(e) => setTopics(e.target.value)}
+                  placeholder="e.g. Advanced Data Analysis, Cybersecurity, AI Tools, Cloud Management..."
+                  className="w-full rounded-xl border border-slate-200 bg-white p-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-amber-500 focus:ring-3 focus:ring-amber-500/15 transition-all resize-none"
+                />
+
+                <div className="flex items-center justify-between gap-3 pt-1 flex-wrap">
+                  {feedbackSubmitted ? (
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                      Feedback saved! Thank you.
+                    </span>
+                  ) : (
+                    <span />
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={submittingFeedback}
+                    className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium min-h-[38px] px-4 py-2 transition-colors disabled:opacity-60 ml-auto"
+                  >
+                    {submittingFeedback ? (
+                      <>
+                        <Spinner className="h-3.5 w-3.5 text-white" /> Saving…
+                      </>
+                    ) : (
+                      "Submit Feedback"
+                    )}
+                  </button>
+                </div>
+              </div>
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );
+
 
 }
