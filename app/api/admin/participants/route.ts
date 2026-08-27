@@ -7,15 +7,27 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const supabase = createAdminClient();
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("participants")
     .select("id, name, email, unique_id, status, upload_date, file_path, wants_more_sessions, requested_topics")
     .order("upload_date", { ascending: false });
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  // If column error occurs (e.g. schema not yet altered in Supabase DB), fallback to base columns
+  if (error) {
+    const fallback = await supabase
+      .from("participants")
+      .select("id, name, email, unique_id, status, upload_date, file_path")
+      .order("upload_date", { ascending: false });
+    
+    if (fallback.error) {
+      return NextResponse.json({ error: fallback.error.message }, { status: 500 });
+    }
+    data = fallback.data;
+  }
 
   return NextResponse.json({ participants: data });
 }
+
 
 export async function POST(request: Request) {
   const user = await requireAdmin();
