@@ -23,7 +23,7 @@ export function Sidebar({ adminEmail }: { adminEmail: string }) {
       <div className="flex items-center justify-between px-4 sm:px-6 h-16 border-b border-white/10">
         <div className="flex items-center gap-2.5">
           <Seal size={22} />
-          <span className="font-display text-[15px] tracking-wide">Certificate Admin</span>
+          <span className="font-display text-[15px] tracking-wide font-semibold">Admin</span>
         </div>
         <button
           onClick={handleSignOut}

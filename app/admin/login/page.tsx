@@ -51,22 +51,22 @@ function AdminLoginForm() {
       const next = searchParams.get("next") || "/admin";
       router.push(next);
       router.refresh();
-    } catch (err: any) {
-      setError("Unable to connect to Supabase. Please ensure your actual NEXT_PUBLIC_SUPABASE_URL is configured in .env.local.");
+    } catch {
+      setError("Unable to connect to authentication service. Please check your credentials and internet connection.");
       setLoading(false);
     }
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-16 bg-ink">
-      <div className="w-full max-w-[380px]">
-        <div className="flex flex-col items-center text-center mb-7">
-          <div className="h-11 w-11 rounded-full bg-white/10 flex items-center justify-center mb-4">
-            <LockKeyhole className="h-5 w-5 text-brass-soft" />
+    <main className="min-h-[100dvh] flex flex-col items-center justify-center px-4 py-8 sm:py-12 bg-ink text-slate-900">
+      <div className="w-full max-w-[360px] sm:max-w-[400px]">
+        <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
+          <div className="h-12 w-12 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mb-3.5 shadow-inner">
+            <LockKeyhole className="h-6 w-6 text-brass-soft" />
           </div>
-          <h1 className="font-display text-2xl text-white">Admin sign in</h1>
-          <p className="mt-1.5 text-sm text-white/50">
-            Manage participants and certificate uploads.
+          <h1 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">Admin</h1>
+          <p className="mt-1.5 text-xs sm:text-sm text-white/60">
+            Sign in to manage participants and certificates.
           </p>
         </div>
 
@@ -84,11 +84,10 @@ function AdminLoginForm() {
 
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-card-lg p-7 space-y-4"
+          className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-7 space-y-4 border border-white/20"
         >
-
           <div>
-            <label htmlFor="email" className="block text-xs font-medium uppercase tracking-wider text-ink-soft mb-1.5">
+            <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
               Email
             </label>
             <input
@@ -97,13 +96,14 @@ function AdminLoginForm() {
               autoComplete="username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-line px-4 py-3 text-base sm:text-sm text-ink outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow min-h-[46px]"
+              placeholder="admin@example.com"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white px-4 py-3 text-base sm:text-sm text-slate-900 outline-none focus:border-amber-600 focus:ring-3 focus:ring-amber-600/15 transition-all min-h-[48px]"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-xs font-medium uppercase tracking-wider text-ink-soft mb-1.5">
+            <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
               Password
             </label>
             <input
@@ -112,13 +112,14 @@ function AdminLoginForm() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-line px-4 py-3 text-base sm:text-sm text-ink outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow min-h-[46px]"
+              placeholder="••••••••"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white px-4 py-3 text-base sm:text-sm text-slate-900 outline-none focus:border-amber-600 focus:ring-3 focus:ring-amber-600/15 transition-all min-h-[48px]"
               required
             />
           </div>
 
           {error && (
-            <p role="alert" className="text-sm text-seal bg-seal-50 rounded-md px-3 py-2">
+            <p role="alert" className="text-xs sm:text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5 leading-snug">
               {error}
             </p>
           )}
@@ -126,12 +127,11 @@ function AdminLoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-ink text-white text-sm font-medium min-h-[48px] py-3 px-4 hover:bg-ink/90 transition-colors disabled:opacity-60"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 text-white text-sm font-semibold min-h-[48px] py-3 px-4 hover:bg-slate-800 active:scale-[0.99] transition-all disabled:opacity-60 shadow-md shadow-slate-900/10"
           >
-
             {loading ? (
               <>
-                <Spinner className="h-4 w-4" /> Signing in…
+                <Spinner className="h-4 w-4 text-white" /> Signing in…
               </>
             ) : (
               <>

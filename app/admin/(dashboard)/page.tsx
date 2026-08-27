@@ -1,11 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, FileDown } from "lucide-react";
 import { ParticipantsTable, type Participant } from "@/components/admin/ParticipantsTable";
 import { AddParticipantModal } from "@/components/admin/AddParticipantModal";
 import { useToast } from "@/lib/toast-context";
 import { Spinner } from "@/components/ui/Spinner";
+import { exportFeedbackPDF } from "@/lib/export-pdf";
 
 export default function AdminDashboardPage() {
   const { showToast } = useToast();
@@ -45,7 +46,6 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="p-4 sm:p-8 max-w-[1200px] w-full min-w-0">
-
       <div className="flex items-start justify-between mb-7 gap-4 flex-wrap">
         <div>
           <h1 className="font-display text-[26px] text-ink">Participants</h1>
@@ -54,13 +54,26 @@ export default function AdminDashboardPage() {
             certificates and track download status.
           </p>
         </div>
-        <button
-          onClick={() => setModalOpen(true)}
-          className="inline-flex items-center gap-2 rounded-lg bg-ink text-white text-sm font-medium px-4 py-2.5 hover:bg-ink/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          Add Participant
-        </button>
+
+        <div className="flex items-center gap-2.5 flex-wrap">
+          <button
+            onClick={() => exportFeedbackPDF(participants)}
+            disabled={participants.length === 0}
+            className="inline-flex items-center gap-2 rounded-lg border border-line bg-white text-ink text-sm font-medium px-3.5 py-2.5 hover:bg-bone transition-colors shadow-sm disabled:opacity-50"
+            title="Export all participant training feedback to PDF"
+          >
+            <FileDown className="h-4 w-4 text-brass" />
+            Export Feedback (PDF)
+          </button>
+
+          <button
+            onClick={() => setModalOpen(true)}
+            className="inline-flex items-center gap-2 rounded-lg bg-ink text-white text-sm font-medium px-4 py-2.5 hover:bg-ink/90 transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            Add Participant
+          </button>
+        </div>
       </div>
 
       <div className="relative mb-5 max-w-sm">
