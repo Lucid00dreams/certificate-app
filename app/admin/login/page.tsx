@@ -97,7 +97,7 @@ function AdminLoginForm() {
               autoComplete="username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-line px-4 py-3 text-sm text-ink outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow"
+              className="w-full rounded-lg border border-line px-4 py-3 text-base sm:text-sm text-ink outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow min-h-[46px]"
               required
             />
           </div>
@@ -112,7 +112,7 @@ function AdminLoginForm() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-line px-4 py-3 text-sm text-ink outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow"
+              className="w-full rounded-lg border border-line px-4 py-3 text-base sm:text-sm text-ink outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow min-h-[46px]"
               required
             />
           </div>
@@ -126,8 +126,9 @@ function AdminLoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-ink text-white text-sm font-medium py-3.5 hover:bg-ink/90 transition-colors disabled:opacity-60"
+            className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-ink text-white text-sm font-medium min-h-[48px] py-3 px-4 hover:bg-ink/90 transition-colors disabled:opacity-60"
           >
+
             {loading ? (
               <>
                 <Spinner className="h-4 w-4" /> Signing in…

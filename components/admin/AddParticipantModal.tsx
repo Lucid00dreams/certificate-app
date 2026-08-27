@@ -81,14 +81,14 @@ export function AddParticipantModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 backdrop-blur-[2px] px-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 backdrop-blur-[2px] p-3 sm:p-4"
       role="dialog"
       aria-modal="true"
       onClick={(e) => e.target === e.currentTarget && !submitting && onClose()}
     >
-      <div className="w-full max-w-[440px] bg-white rounded-2xl shadow-card-lg animate-fade-up">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-line-soft">
-          <h2 className="font-display text-lg text-ink">Add Participant</h2>
+      <div className="w-full max-w-[440px] max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-card-lg animate-fade-up">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-line-soft sticky top-0 bg-white z-10">
+          <h2 className="font-display text-base sm:text-lg text-ink">Add Participant</h2>
           <button
             onClick={onClose}
             disabled={submitting}
@@ -99,7 +99,7 @@ export function AddParticipantModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
+        <form onSubmit={handleSubmit} className="px-5 sm:px-6 py-5 space-y-4">
           <div>
             <label htmlFor="p-name" className="block text-xs font-medium uppercase tracking-wider text-ink-soft mb-1.5">
               Full name
@@ -108,11 +108,11 @@ export function AddParticipantModal({
               id="p-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-lg border border-line px-3.5 py-2.5 text-sm outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow"
+              className="w-full rounded-lg border border-line px-3.5 py-2.5 text-base sm:text-sm outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow min-h-[44px]"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label htmlFor="p-email" className="block text-xs font-medium uppercase tracking-wider text-ink-soft mb-1.5">
                 Email
@@ -122,7 +122,7 @@ export function AddParticipantModal({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-line px-3.5 py-2.5 text-sm outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow"
+                className="w-full rounded-lg border border-line px-3.5 py-2.5 text-base sm:text-sm outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow min-h-[44px]"
               />
             </div>
             <div>
@@ -134,10 +134,11 @@ export function AddParticipantModal({
                 value={uniqueId}
                 onChange={(e) => setUniqueId(e.target.value)}
                 placeholder="CGH-2026-0143"
-                className="w-full rounded-lg border border-line px-3.5 py-2.5 text-sm font-mono outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow"
+                className="w-full rounded-lg border border-line px-3.5 py-2.5 text-base sm:text-sm font-mono outline-none focus:border-brass focus:shadow-[0_0_0_3px_rgba(169,130,76,0.15)] transition-shadow min-h-[44px]"
               />
             </div>
           </div>
+
 
           <div>
             <label className="block text-xs font-medium uppercase tracking-wider text-ink-soft mb-1.5">

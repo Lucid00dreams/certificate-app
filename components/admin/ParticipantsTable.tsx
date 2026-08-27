@@ -71,16 +71,16 @@ export function ParticipantsTable({
   }
 
   return (
-    <div className="rounded-xl border border-line-soft bg-white overflow-hidden">
-      <table className="w-full text-sm">
+    <div className="rounded-xl border border-line-soft bg-white overflow-x-auto shadow-sm">
+      <table className="w-full text-xs sm:text-sm whitespace-nowrap min-w-[600px]">
         <thead>
-          <tr className="border-b border-line-soft text-left text-xs uppercase tracking-wider text-ink-faint">
-            <th className="px-5 py-3.5 font-medium">Name</th>
-            <th className="px-5 py-3.5 font-medium">Email</th>
-            <th className="px-5 py-3.5 font-medium">Unique ID</th>
-            <th className="px-5 py-3.5 font-medium">Upload Date</th>
-            <th className="px-5 py-3.5 font-medium">Status</th>
-            <th className="px-5 py-3.5 font-medium sr-only">Actions</th>
+          <tr className="border-b border-line-soft text-left text-[11px] sm:text-xs uppercase tracking-wider text-ink-faint bg-bone/40">
+            <th className="px-4 sm:px-5 py-3 font-medium">Name</th>
+            <th className="px-4 sm:px-5 py-3 font-medium">Email</th>
+            <th className="px-4 sm:px-5 py-3 font-medium">Unique ID</th>
+            <th className="px-4 sm:px-5 py-3 font-medium">Upload Date</th>
+            <th className="px-4 sm:px-5 py-3 font-medium">Status</th>
+            <th className="px-4 sm:px-5 py-3 font-medium text-right">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -89,24 +89,24 @@ export function ParticipantsTable({
               key={p.id}
               className="border-b border-line-soft last:border-0 hover:bg-bone/60 transition-colors group"
             >
-              <td className="px-5 py-3.5 font-medium text-ink">{p.name}</td>
-              <td className="px-5 py-3.5 text-ink-soft">{p.email}</td>
-              <td className="px-5 py-3.5 font-mono text-xs text-ink-soft">{p.unique_id}</td>
-              <td className="px-5 py-3.5 text-ink-soft">
+              <td className="px-4 sm:px-5 py-3 font-medium text-ink">{p.name}</td>
+              <td className="px-4 sm:px-5 py-3 text-ink-soft">{p.email}</td>
+              <td className="px-4 sm:px-5 py-3 font-mono text-xs text-ink-soft">{p.unique_id}</td>
+              <td className="px-4 sm:px-5 py-3 text-ink-soft">
                 {new Date(p.upload_date).toLocaleDateString(undefined, {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
                 })}
               </td>
-              <td className="px-5 py-3.5">
+              <td className="px-4 sm:px-5 py-3">
                 <StatusPill status={p.status} />
               </td>
-              <td className="px-5 py-3.5 text-right">
+              <td className="px-4 sm:px-5 py-3 text-right">
                 <button
                   onClick={() => handleDelete(p)}
                   disabled={deletingId === p.id}
-                  className="opacity-0 group-hover:opacity-100 focus:opacity-100 inline-flex items-center justify-center h-8 w-8 rounded-md text-ink-faint hover:text-seal hover:bg-seal-50 transition-all disabled:opacity-100"
+                  className="opacity-100 md:opacity-0 md:group-hover:opacity-100 focus:opacity-100 inline-flex items-center justify-center h-8 w-8 rounded-md text-ink-faint hover:text-seal hover:bg-seal-50 transition-all disabled:opacity-100"
                   aria-label={`Remove ${p.name}`}
                 >
                   {deletingId === p.id ? <Spinner className="h-3.5 w-3.5" /> : <Trash2 className="h-3.5 w-3.5" />}
@@ -118,4 +118,5 @@ export function ParticipantsTable({
       </table>
     </div>
   );
+
 }

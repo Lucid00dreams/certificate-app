@@ -138,8 +138,9 @@ export function AdminSessionProvider({ children }: { children: React.ReactNode }
       {children}
 
       {warningSeconds !== null && (
-        <div className="fixed bottom-4 right-4 z-[200] max-w-md w-full p-4 bg-ink text-white rounded-xl shadow-card-lg border border-brass/30 animate-fade-up">
+        <div className="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-4 sm:bottom-4 z-[200] max-w-md p-4 bg-ink text-white rounded-xl shadow-card-lg border border-brass/30 animate-fade-up">
           <div className="flex items-start gap-3">
+
             <div className="p-2 bg-brass/20 rounded-lg text-brass-soft shrink-0">
               <Clock className="h-5 w-5" />
             </div>
