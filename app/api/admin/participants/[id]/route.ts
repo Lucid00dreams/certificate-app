@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/require-admin";
 import { createAdminClient, CERTIFICATES_BUCKET } from "@/lib/supabase/admin";
 
+export const dynamic = "force-dynamic";
+
+
 export async function PATCH(request: Request, { params }: { params: { id: string } }) {
   const user = await requireAdmin();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

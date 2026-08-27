@@ -2,6 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { Sidebar } from "@/components/admin/Sidebar";
 import { AdminSessionProvider } from "@/components/admin/AdminSessionProvider";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardLayout({
   children,
 }: {
