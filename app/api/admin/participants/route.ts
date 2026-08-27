@@ -10,7 +10,7 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const supabase = createAdminClient();
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from("participants")
     .select("id, name, email, unique_id, status, upload_date, file_path, wants_more_sessions, requested_topics")
     .order("upload_date", { ascending: false });
@@ -21,15 +21,23 @@ export async function GET() {
       .from("participants")
       .select("id, name, email, unique_id, status, upload_date, file_path")
       .order("upload_date", { ascending: false });
-    
+
     if (fallback.error) {
       return NextResponse.json({ error: fallback.error.message }, { status: 500 });
     }
-    data = fallback.data;
+
+    const fallbackFormatted = (fallback.data || []).map((item) => ({
+      ...item,
+      wants_more_sessions: false,
+      requested_topics: null,
+    }));
+
+    return NextResponse.json({ participants: fallbackFormatted });
   }
 
   return NextResponse.json({ participants: data });
 }
+
 
 
 export async function POST(request: Request) {
@@ -69,8 +77,9 @@ export async function POST(request: Request) {
   const { data, error } = await supabase
     .from("participants")
     .insert({ name, email, unique_id: uniqueId, file_path: filePath, status: "pending" })
-    .select("id, name, email, unique_id, status, upload_date, file_path, wants_more_sessions, requested_topics")
+    .select("id, name, email, unique_id, status, upload_date, file_path")
     .single();
+
 
 
   if (error) {
